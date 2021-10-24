@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 
 # server connection
-server_ip_address = '192.168.10.18'
+server_ip_address = '0.0.0.0'
 server_port = 10502
 
 client = ModbusTcpClient(server_ip_address, server_port)
@@ -269,7 +269,8 @@ def rtac_mode(values, load):
 
         prevManual_S1 = nextManual_S1
         response_Manual = client.read_holding_registers(1, 1, unit=UNIT)  # HR 1 - C1 cmd (simulation)
-        nextManual_S1 = response_Manual.registers[0]
+#        nextManual_S1 = response_Manual.registers[0]
+        nextManual_S1 = GPIO.input(relay1)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C1, nextRTAC_C1)
         risingEdgeManual = risingEdgeDetector(prevManual_S1, nextManual_S1)
@@ -298,7 +299,8 @@ def rtac_mode(values, load):
 
         prevManual_S2 = nextManual_S2
         response_Manual = client.read_holding_registers(2, 1, unit=UNIT)  # HR 2 - C2 cmd (simulation)
-        nextManual_S2 = response_Manual.registers[0]
+#        nextManual_S2 = response_Manual.registers[0]
+        nextManual_S2 = GPIO.input(relay2)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C2, nextRTAC_C2)
         risingEdgeManual = risingEdgeDetector(prevManual_S2, nextManual_S2)
@@ -327,7 +329,8 @@ def rtac_mode(values, load):
 
         prevManual_S3 = nextManual_S3
         response_Manual = client.read_holding_registers(3, 1, unit=UNIT)  # HR 3 - C3 cmd (simulation)
-        nextManual_S3 = response_Manual.registers[0]
+#        nextManual_S3 = response_Manual.registers[0]
+        nextManual_S3 = GPIO.input(relay3)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C3, nextRTAC_C3)
         risingEdgeManual = risingEdgeDetector(prevManual_S3, nextManual_S3)
@@ -356,7 +359,8 @@ def rtac_mode(values, load):
 
         prevManual_S4 = nextManual_S4
         response_Manual = client.read_holding_registers(4, 1, unit=UNIT)  # HR 4 - C4 cmd (simulation)
-        nextManual_S4 = response_Manual.registers[0]
+#        nextManual_S4 = response_Manual.registers[0]
+        nextManual_S4 = GPIO.input(relay4)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C4, nextRTAC_C4)
         risingEdgeManual = risingEdgeDetector(prevManual_S4, nextManual_S4)
@@ -385,7 +389,8 @@ def rtac_mode(values, load):
 
         prevManual_S5 = nextManual_S5
         response_Manual = client.read_holding_registers(5, 1, unit=UNIT)  # HR 5 - C5 cmd (simulation)
-        nextManual_S5 = response_Manual.registers[0]
+#        nextManual_S5 = response_Manual.registers[0]
+        nextManual_S5 = GPIO.input(relay5)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C5, nextRTAC_C5)
         risingEdgeManual = risingEdgeDetector(prevManual_S5, nextManual_S5)
@@ -414,7 +419,8 @@ def rtac_mode(values, load):
 
         prevManual_S6 = nextManual_S6
         response_Manual = client.read_holding_registers(6, 1, unit=UNIT)  # HR 6 - C6 cmd (simulation)
-        nextManual_S6 = response_Manual.registers[0]
+#        nextManual_S6 = response_Manual.registers[0]
+        nextManual_S6 = GPIO.input(relay6)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C6, nextRTAC_C6)
         risingEdgeManual = risingEdgeDetector(prevManual_S6, nextManual_S6)
@@ -443,7 +449,8 @@ def rtac_mode(values, load):
 
         prevManual_S7 = nextManual_S7
         response_Manual = client.read_holding_registers(7, 1, unit=UNIT)  # HR 7 - C7 cmd (simulation)
-        nextManual_S7 = response_Manual.registers[0]
+#        nextManual_S7 = response_Manual.registers[0]
+        nextManual_S7 = GPIO.input(relay7)
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C7, nextRTAC_C7)
         risingEdgeManual = risingEdgeDetector(prevManual_S7, nextManual_S7)

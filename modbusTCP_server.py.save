@@ -1,0 +1,24 @@
+from pymodbus.server.sync import StartTcpServer
+from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
+
+server_ip_address = '192.168.10.18'
+server_port = 10502
+
+#addresses = [1, 100]
+slaves = {
+    0x01: slave1
+    0x02: slave2
+}
+
+#for address in addresses:
+ #   print(address)
+  #  store = ModbusSlaveContext(zero_mode=True)
+   
+# slaves.update({address: store})
+    print(slaves)
+
+context = ModbusServerContext(slaves=slaves, single=True)
+
+print("[+]Info : Server started on Ip : {IP} and PORT : {P} " . format(IP=server_ip_address, P=server_port))
+StartTcpServer(context, address=(server_ip_address, server_port))
+
