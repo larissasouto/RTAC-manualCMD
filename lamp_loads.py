@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 
 # server connection
-server_ip_address = '0.0.0.0'
+server_ip_address = '127.0.0.1'
 server_port = 10502
 
 client = ModbusTcpClient(server_ip_address, server_port)
