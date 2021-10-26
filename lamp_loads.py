@@ -35,60 +35,60 @@ GPIO.setup(relay6, GPIO.OUT)
 GPIO.setup(relay7, GPIO.OUT)
 
 # initial states Load 1
-prevRTAC_C1 = 0
-nextRTAC_C1 = 0
-prevManual_S1 = 0
-nextManual_S1 = 0
-prevFlipFlop_L1 = 0
-nextFlipFlop_L1 = 0
+prevRTAC_C1 = 1
+nextRTAC_C1 = 1
+prevManual_S1 = 1
+nextManual_S1 = 1
+prevFlipFlop_L1 = 1
+nextFlipFlop_L1 = 1
 
 # initial states Load 2
-prevRTAC_C2 = 0
-nextRTAC_C2 = 0
-prevManual_S2 = 0
-nextManual_S2 = 0
-prevFlipFlop_L2 = 0
-nextFlipFlop_L2 = 0
+prevRTAC_C2 = 1
+nextRTAC_C2 = 1
+prevManual_S2 = 1
+nextManual_S2 = 1
+prevFlipFlop_L2 = 1
+nextFlipFlop_L2 = 1
 
 # initial states Load 3
-prevRTAC_C3 = 0
-nextRTAC_C3 = 0
-prevManual_S3 = 0
-nextManual_S3 = 0
-prevFlipFlop_L3 = 0
-nextFlipFlop_L3 = 0
+prevRTAC_C3 = 1
+nextRTAC_C3 = 1
+prevManual_S3 = 1
+nextManual_S3 = 1
+prevFlipFlop_L3 = 1
+nextFlipFlop_L3 = 1
 
 # initial states Load 4
-prevRTAC_C4 = 0
-nextRTAC_C4 = 0
-prevManual_S4 = 0
-nextManual_S4 = 0
-prevFlipFlop_L4 = 0
-nextFlipFlop_L4 = 0
+prevRTAC_C4 = 1
+nextRTAC_C4 = 1
+prevManual_S4 = 1
+nextManual_S4 = 1
+prevFlipFlop_L4 = 1
+nextFlipFlop_L4 = 1
 
 # initial states Load 5
-prevRTAC_C5 = 0
-nextRTAC_C5 = 0
-prevManual_S5 = 0
-nextManual_S5 = 0
-prevFlipFlop_L5 = 0
-nextFlipFlop_L5 = 0
+prevRTAC_C5 = 1
+nextRTAC_C5 = 1
+prevManual_S5 = 1
+nextManual_S5 = 1
+prevFlipFlop_L5 = 1
+nextFlipFlop_L5 = 1
 
 # initial states Load 6
-prevRTAC_C6 = 0
-nextRTAC_C6 = 0
-prevManual_S6 = 0
-nextManual_S6 = 0
-prevFlipFlop_L6 = 0
-nextFlipFlop_L6 = 0
+prevRTAC_C6 = 1
+nextRTAC_C6 = 1
+prevManual_S6 = 1
+nextManual_S6 = 1
+prevFlipFlop_L6 = 1
+nextFlipFlop_L6 = 1
 
 # initial states Load 7
-prevRTAC_C7 = 0
-nextRTAC_C7 = 0
-prevManual_S7 = 0
-nextManual_S7 = 0
-prevFlipFlop_L7 = 0
-nextFlipFlop_L7 = 0
+prevRTAC_C7 = 1
+nextRTAC_C7 = 1
+prevManual_S7 = 1
+nextManual_S7 = 1
+prevFlipFlop_L7 = 1
+nextFlipFlop_L7 = 1
 
 
 # LOGIC FUNCTIONS
@@ -101,96 +101,6 @@ def pset_mode(value):
 
     if pset_power < 828:
         print("S1 OFF\nS2 OFF\nS3 OFF\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 0)
-        GPIO.output(relay2, 0)
-        GPIO.output(relay3, 0)
-        GPIO.output(relay4, 0)
-        GPIO.output(relay5, 0)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [0] * 7, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 828) and (pset_power < 1656):
-        print("S1 ON\nS2 OFF\nS3 OFF\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 0)
-        GPIO.output(relay3, 0)
-        GPIO.output(relay4, 0)
-        GPIO.output(relay5, 0)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coil(9, 1, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coils(10, [0] * 6, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 1656) and (pset_power < 2484):
-        print("S1 ON\nS2 ON\nS3 OFF\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 1)
-        GPIO.output(relay3, 0)
-        GPIO.output(relay4, 0)
-        GPIO.output(relay5, 0)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [1] * 2, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coils(11, [0] * 5, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 2484) and (pset_power < 3312):
-        print("S1 ON\nS2 ON\nS3 ON\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 1)
-        GPIO.output(relay3, 1)
-        GPIO.output(relay4, 0)
-        GPIO.output(relay5, 0)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [1] * 3, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coils(12, [0] * 4, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 3312) and (pset_power < 4140):
-        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 OFF\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 1)
-        GPIO.output(relay3, 1)
-        GPIO.output(relay4, 1)
-        GPIO.output(relay5, 0)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [1] * 4, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coils(13, [0] * 3, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 4140) and (pset_power < 4968):
-        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 OFF\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 1)
-        GPIO.output(relay3, 1)
-        GPIO.output(relay4, 1)
-        GPIO.output(relay5, 1)
-        GPIO.output(relay6, 0)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [1] * 5, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coils(14, [0] * 2, unit=UNIT)  # RTAC loads state (OFF)
-
-    if (pset_power >= 4968) and (pset_power < 5796):
-        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 ON\nS7 OFF\n")
-        GPIO.output(relay1, 1)
-        GPIO.output(relay2, 1)
-        GPIO.output(relay3, 1)
-        GPIO.output(relay4, 1)
-        GPIO.output(relay5, 1)
-        GPIO.output(relay6, 1)
-        GPIO.output(relay7, 0)
-
-        client.write_coils(9, [1] * 6, unit=UNIT)  # RTAC loads state (ON)
-        client.write_coil(15, 0, unit=UNIT)  # RTAC loads state (OFF)
-
-    if pset_power >= 5796:
-        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 ON\nS7 ON\n")
         GPIO.output(relay1, 1)
         GPIO.output(relay2, 1)
         GPIO.output(relay3, 1)
@@ -199,7 +109,97 @@ def pset_mode(value):
         GPIO.output(relay6, 1)
         GPIO.output(relay7, 1)
 
-        client.write_coils(9, [1] * 7, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(9, [1] * 7, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 828) and (pset_power < 1656):
+        print("S1 ON\nS2 OFF\nS3 OFF\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 1)
+        GPIO.output(relay3, 1)
+        GPIO.output(relay4, 1)
+        GPIO.output(relay5, 1)
+        GPIO.output(relay6, 1)
+        GPIO.output(relay7, 1)
+
+        client.write_coil(9, 0, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(10, [1] * 6, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 1656) and (pset_power < 2484):
+        print("S1 ON\nS2 ON\nS3 OFF\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 1)
+        GPIO.output(relay4, 1)
+        GPIO.output(relay5, 1)
+        GPIO.output(relay6, 1)
+        GPIO.output(relay7, 1)
+
+        client.write_coils(9, [0] * 2, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(11, [1] * 5, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 2484) and (pset_power < 3312):
+        print("S1 ON\nS2 ON\nS3 ON\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 0)
+        GPIO.output(relay4, 1)
+        GPIO.output(relay5, 1)
+        GPIO.output(relay6, 1)
+        GPIO.output(relay7, 1)
+
+        client.write_coils(9, [0] * 3, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(12, [1] * 4, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 3312) and (pset_power < 4140):
+        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 OFF\nS6 OFF\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 0)
+        GPIO.output(relay4, 0)
+        GPIO.output(relay5, 1)
+        GPIO.output(relay6, 1)
+        GPIO.output(relay7, 1)
+
+        client.write_coils(9, [0] * 4, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(13, [1] * 3, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 4140) and (pset_power < 4968):
+        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 OFF\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 0)
+        GPIO.output(relay4, 0)
+        GPIO.output(relay5, 0)
+        GPIO.output(relay6, 1)
+        GPIO.output(relay7, 1)
+
+        client.write_coils(9, [0] * 5, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coils(14, [1] * 2, unit=UNIT)  # RTAC loads state (OFF)
+
+    if (pset_power >= 4968) and (pset_power < 5796):
+        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 ON\nS7 OFF\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 0)
+        GPIO.output(relay4, 0)
+        GPIO.output(relay5, 0)
+        GPIO.output(relay6, 0)
+        GPIO.output(relay7, 1)
+
+        client.write_coils(9, [0] * 6, unit=UNIT)  # RTAC loads state (ON)
+        client.write_coil(15, 1, unit=UNIT)  # RTAC loads state (OFF)
+
+    if pset_power >= 5796:
+        print("S1 ON\nS2 ON\nS3 ON\nS4 ON\nS5 ON\nS6 ON\nS7 ON\n")
+        GPIO.output(relay1, 0)
+        GPIO.output(relay2, 0)
+        GPIO.output(relay3, 0)
+        GPIO.output(relay4, 0)
+        GPIO.output(relay5, 0)
+        GPIO.output(relay6, 0)
+        GPIO.output(relay7, 0)
+
+        client.write_coils(9, [0] * 7, unit=UNIT)  # RTAC loads state (ON)
         state = GPIO.input(relay7)
 
 
