@@ -1,4 +1,4 @@
-# lamp-loads-Modbus
+# Lamp Loads Modbus Controller
 
 ## Dependencies
 
