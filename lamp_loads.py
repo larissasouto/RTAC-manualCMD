@@ -11,11 +11,9 @@ client = ModbusTcpClient(server_ip_address, server_port)
 print("[+]Info : Connection : " + str(client.connect()))
 
 UNIT = 2
-# server connection
 
 """ 
 Rpi pin definition
-
 PIN | GPIO
 29     5
 31     6
@@ -90,7 +88,6 @@ nextManual_S7 = 0
 prevFlipFlop_L7 = 0
 nextFlipFlop_L7 = 0
 
-
 # LOGIC FUNCTIONS
 """ Pset control mode """
 
@@ -100,7 +97,7 @@ def pset_mode(value):
     pset_power = value.registers[0]
 
     if pset_power < 828:
-        relay1.on() # inverted logic
+        relay1.on()  # inverted logic
         relay2.on()
         relay3.on()
         relay4.on()
@@ -116,7 +113,6 @@ def pset_mode(value):
         relay5.on()
         relay6.on()
         relay7.on()
-
 
     if (pset_power >= 1656) and (pset_power < 2484):
         relay1.off()
@@ -171,14 +167,7 @@ def pset_mode(value):
         relay5.off()
         relay6.off()
         relay7.off()
-        
-    relay1_state = relay1.value
-    relay2_state = relay2.value
-    relay3_state = relay3.value
-    relay4_state = relay4.value
-    relay5_state = relay5.value
-    relay6_state = relay6.value
-    
+
     client.write_coil(9, relay_1, unit=UNIT)
     client.write_coil(10, relay_2, unit=UNIT)
     client.write_coil(11, relay_3, unit=UNIT)
@@ -186,9 +175,8 @@ def pset_mode(value):
     client.write_coil(13, relay_5, unit=UNIT)
     client.write_coil(14, relay_6, unit=UNIT)
     client.write_coil(15, relay_7, unit=UNIT)
-    
+
     print(f'S1 {relay1_state}\nS2 {relay2_state}\nS3 {relay3_state}\nS4 {relay4_state}\nS5 {relay5_state}\nS6 {relay6_state}\nS7 {relay7_state}\n')
-    
 
 
 def risingEdgeDetector(prevState, nextState):
@@ -250,14 +238,15 @@ def rtac_mode(values, load):
     # initial states Load 7
     global prevRTAC_C7, nextRTAC_C7, prevManual_S7, nextManual_S7
 
+    # manual commands
+    manual = client.read_coils(16, 22, unit=UNIT)
+
     if load == 1:
         prevRTAC_C1 = nextRTAC_C1
-        response_RTAC = values.bits[0]  # coil 2 - S1 cmd
-        nextRTAC_C1 = response_RTAC
+        nextRTAC_C1 = values.bits[0]  # coil 2 - S1 cmd
 
         prevManual_S1 = nextManual_S1
-        nextManual_S1 = not relay1.value
-        
+        nextManual_S1 = manual.bits[0]  # coil 16 - S1 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C1, nextRTAC_C1)
         risingEdgeManual = risingEdgeDetector(prevManual_S1, nextManual_S1)
@@ -275,22 +264,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L1, nextFlipFlop_L1)
         nextFlipFlop_L1 = loadState
 
-        if(loadState == 0):
-            relay1.on() # load OFF
+        if loadState == 0:
+            relay1.on()  # load OFF
         else:
-            relay1.off() # load ON
+            relay1.off()  # load ON
 
         client.write_coil(9, loadState, unit=UNIT)
-        print ("PIN 29: ", relay1.value)
         return loadState
 
     if load == 2:
         prevRTAC_C2 = nextRTAC_C2
-        response_RTAC = values.bits[1]  # coil 3 - S2 cmd
-        nextRTAC_C2 = response_RTAC
+        nextRTAC_C2 = values.bits[1]  # coil 3 - S2 cmd
 
         prevManual_S2 = nextManual_S2
-        nextManual_S2 = not relay2.value
+        nextManual_S2 = manual.bits[1]  # coil 17 - S2 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C2, nextRTAC_C2)
         risingEdgeManual = risingEdgeDetector(prevManual_S2, nextManual_S2)
@@ -308,22 +295,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L2, nextFlipFlop_L2)
         nextFlipFlop_L2 = loadState
 
-        if(loadState == 0):
-            relay2.on() # load OFF
+        if loadState == 0:
+            relay2.on()  # load OFF
         else:
-            relay2.off() # load ON
+            relay2.off()  # load ON
 
         client.write_coil(10, loadState, unit=UNIT)
-        print ("PIN 31: ", relay2.value)
         return loadState
 
     if load == 3:
         prevRTAC_C3 = nextRTAC_C3
-        response_RTAC = values.bits[2]  # coil 4 - S3 cmd
-        nextRTAC_C3 = response_RTAC
+        nextRTAC_C3 = values.bits[2]  # coil 4 - S3 cmd
 
         prevManual_S3 = nextManual_S3
-        nextManual_S3 = not relay3.value
+        nextManual_S3 = manual.bits[2]  # coil 18 - S3 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C3, nextRTAC_C3)
         risingEdgeManual = risingEdgeDetector(prevManual_S3, nextManual_S3)
@@ -341,22 +326,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L3, nextFlipFlop_L3)
         nextFlipFlop_L3 = loadState
 
-        if(loadState == 0):
-            relay3.on() # load OFF
+        if loadState == 0:
+            relay3.on()  # load OFF
         else:
-            relay3.off() # load ON
+            relay3.off()  # load ON
 
         client.write_coil(11, loadState, unit=UNIT)
-        print ("PIN 33: ", relay3.value)
         return loadState
 
     if load == 4:
         prevRTAC_C4 = nextRTAC_C4
-        response_RTAC = values.bits[3]  # coil 5 - S4 cmd
-        nextRTAC_C4 = response_RTAC
+        nextRTAC_C4 = values.bits[3]  # coil 5 - S4 cmd
 
         prevManual_S4 = nextManual_S4
-        nextManual_S4 = not relay4.value
+        nextManual_S4 = manual.bits[3]  # coil 19 - S4 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C4, nextRTAC_C4)
         risingEdgeManual = risingEdgeDetector(prevManual_S4, nextManual_S4)
@@ -374,22 +357,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L4, nextFlipFlop_L4)
         nextFlipFlop_L4 = loadState
 
-        if(loadState == 0):
-            relay4.on() # load OFF
+        if loadState == 0:
+            relay4.on()  # load OFF
         else:
-            relay4.off() # load ON
+            relay4.off()  # load ON
 
         client.write_coil(12, loadState, unit=UNIT)
-        print ("PIN 36: ", relay4.value)
         return loadState
 
     if load == 5:
         prevRTAC_C5 = nextRTAC_C5
-        response_RTAC = values.bits[4]  # coil 6 - S5 cmd
-        nextRTAC_C5 = response_RTAC
+        nextRTAC_C5 = values.bits[4]  # coil 6 - S5 cmd
 
         prevManual_S5 = nextManual_S5
-        nextManual_S5 = not relay5.value
+        nextManual_S5 = manual.bits[4]  # coil 20 - S5 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C5, nextRTAC_C5)
         risingEdgeManual = risingEdgeDetector(prevManual_S5, nextManual_S5)
@@ -407,22 +388,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L5, nextFlipFlop_L5)
         nextFlipFlop_L5 = loadState
 
-        if(loadState == 0):
-            relay5.on() # load OFF
+        if loadState == 0:
+            relay5.on()  # load OFF
         else:
-            relay5.off() # load ON
+            relay5.off()  # load ON
 
         client.write_coil(13, loadState, unit=UNIT)
-        print ("PIN 35: ", relay5.value)
         return loadState
 
     if load == 6:
         prevRTAC_C6 = nextRTAC_C6
-        response_RTAC = values.bits[5]  # coil 7 - S6 cmd
-        nextRTAC_C6 = response_RTAC
+        nextRTAC_C6 = values.bits[5]  # coil 7 - S6 cmd
 
         prevManual_S6 = nextManual_S6
-        nextManual_S6 = not relay6.value
+        nextManual_S6 = manual.bits[5]  # coil 21 - S6 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C6, nextRTAC_C6)
         risingEdgeManual = risingEdgeDetector(prevManual_S6, nextManual_S6)
@@ -440,22 +419,20 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L6, nextFlipFlop_L6)
         nextFlipFlop_L6 = loadState
 
-        if(loadState == 0):
-            relay6.on() # load OFF
+        if loadState == 0:
+            relay6.on()  # load OFF
         else:
-            relay6.off() # load ON
+            relay6.off()  # load ON
 
         client.write_coil(14, loadState, unit=UNIT)
-        print ("PIN 38: ", relay6.value)
         return loadState
 
     if load == 7:
         prevRTAC_C7 = nextRTAC_C7
-        response_RTAC = values.bits[6]  # coil 8 - S7 cmd
-        nextRTAC_C7 = response_RTAC
+        nextRTAC_C7 = values.bits[6]  # coil 8 - S7 cmd
 
         prevManual_S7 = nextManual_S7
-        nextManual_S7 = not relay7.value
+        nextManual_S7 = manual.bits[6]  # coil 22 - S7 manual cmd
 
         risingEdgeRTAC = risingEdgeDetector(prevRTAC_C7, nextRTAC_C7)
         risingEdgeManual = risingEdgeDetector(prevManual_S7, nextManual_S7)
@@ -473,13 +450,12 @@ def rtac_mode(values, load):
         loadState = srFlipFlop(s, r, prevFlipFlop_L7, nextFlipFlop_L7)
         nextFlipFlop_L7 = loadState
 
-        if(loadState == 0):
-            relay7.on() # load OFF
+        if loadState == 0:
+            relay7.on()  # load OFF
         else:
-            relay7.off() # load ON
+            relay7.off()  # load ON
 
         client.write_coil(15, loadState, unit=UNIT)
-        print ("PIN 40: ", relay7.value)
         return loadState
 
 
@@ -541,4 +517,3 @@ def getValues():
 
 while True:
     getValues()
-
