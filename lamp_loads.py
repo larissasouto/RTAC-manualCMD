@@ -91,19 +91,20 @@ nextFlipFlop_L7 = 0
 # LOGIC FUNCTIONS
 """ Pset control mode """
 
-
 def pset_mode(value):
     print("PSET CONTROL MODE")
     pset_power = value.registers[0]
 
     if pset_power < 828:
-        relay1.on()  # inverted logic
+        relay1.on() # inverted logic
         relay2.on()
         relay3.on()
         relay4.on()
         relay5.on()
         relay6.on()
         relay7.on()
+
+        client.write_coils(9, [1] * 7, unit=UNIT)  # RTAC loads state (OFF = 1)
 
     if (pset_power >= 828) and (pset_power < 1656):
         relay1.off()
@@ -114,6 +115,9 @@ def pset_mode(value):
         relay6.on()
         relay7.on()
 
+        client.write_coil(9, 0, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coils(10, [1] * 6, unit=UNIT)  # RTAC loads state (OFF = 1)
+
     if (pset_power >= 1656) and (pset_power < 2484):
         relay1.off()
         relay2.off()
@@ -123,7 +127,11 @@ def pset_mode(value):
         relay6.on()
         relay7.on()
 
+        client.write_coils(9, [0] * 2, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coils(11, [1] * 5, unit=UNIT)  # RTAC loads state (OFF = 1)
+
     if (pset_power >= 2484) and (pset_power < 3312):
+        print("S1 ON\nS2 ON\nS3 ON\nS4 OFF\nS5 OFF\nS6 OFF\nS7 OFF\n")
         relay1.off()
         relay2.off()
         relay3.off()
@@ -131,6 +139,9 @@ def pset_mode(value):
         relay5.on()
         relay6.on()
         relay7.on()
+
+        client.write_coils(9, [0] * 3, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coils(12, [1] * 4, unit=UNIT)  # RTAC loads state (OFF = 1)
 
     if (pset_power >= 3312) and (pset_power < 4140):
         relay1.off()
@@ -141,6 +152,9 @@ def pset_mode(value):
         relay6.on()
         relay7.on()
 
+        client.write_coils(9, [0] * 4, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coils(13, [1] * 3, unit=UNIT)  # RTAC loads state (OFF = 1)
+
     if (pset_power >= 4140) and (pset_power < 4968):
         relay1.off()
         relay2.off()
@@ -149,6 +163,9 @@ def pset_mode(value):
         relay5.off()
         relay6.on()
         relay7.on()
+
+        client.write_coils(9, [0] * 5, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coils(14, [1] * 2, unit=UNIT)  # RTAC loads state (OFF = 1)
 
     if (pset_power >= 4968) and (pset_power < 5796):
         relay1.off()
@@ -159,6 +176,9 @@ def pset_mode(value):
         relay6.off()
         relay7.on()
 
+        client.write_coils(9, [0] * 6, unit=UNIT)  # RTAC loads state (ON = 0)
+        client.write_coil(15, 1, unit=UNIT)  # RTAC loads state (OFF = 1)
+
     if pset_power >= 5796:
         relay1.off()
         relay2.off()
@@ -168,15 +188,9 @@ def pset_mode(value):
         relay6.off()
         relay7.off()
 
-    client.write_coil(9, relay_1, unit=UNIT)
-    client.write_coil(10, relay_2, unit=UNIT)
-    client.write_coil(11, relay_3, unit=UNIT)
-    client.write_coil(12, relay_4, unit=UNIT)
-    client.write_coil(13, relay_5, unit=UNIT)
-    client.write_coil(14, relay_6, unit=UNIT)
-    client.write_coil(15, relay_7, unit=UNIT)
+        client.write_coils(9, [0] * 7, unit=UNIT)  # RTAC loads state (ON = 0)
 
-    print(f'S1 {relay1_state}\nS2 {relay2_state}\nS3 {relay3_state}\nS4 {relay4_state}\nS5 {relay5_state}\nS6 {relay6_state}\nS7 {relay7_state}\n')
+    print(f'S1 {relay1.value}\nS2 {relay2.value}\nS3 {relay3.value}\nS4 {relay4.value}\nS5 {relay5.value}\nS6 {relay6.value}\nS7 {relay7.value}\n')
 
 
 def risingEdgeDetector(prevState, nextState):
