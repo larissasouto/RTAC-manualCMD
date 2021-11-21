@@ -1,4 +1,4 @@
-# Lamp Loads Modbus Controller
+# Lamp Loads Modbus Controller (RTAC and Manual Commands)
 
 ## Dependencies
 
