@@ -8,4 +8,4 @@
 
 2. Install gpiozero library
 
-        sudo apt install python3-gpiozero
+        pip3 install python3-gpiozero
